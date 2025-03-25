@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://dq6dbkksikx3n"]
+
+[ext_resource type="Texture2D" uid="uid://bgk1m7exdoe14" path="res://Assets/background.png" id="1_8gbba"]
+[ext_resource type="Texture2D" uid="uid://bjwywda2kin1r" path="res://Assets/sub-ground.png" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://dedbklxrlpiio" path="res://Assets/ground.png" id="3_kry3j"]
+[ext_resource type="PackedScene" uid="uid://da0pg3qr15bnf" path="res://Scenes/main_character.tscn" id="4_jjvhh"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kry3j"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jjvhh"]
+distance = -548.0
+
+[node name="Node" type="Node"]
+
+[node name="Background" type="Node" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_8gbba")
+stretch_mode = 1
+
+[node name="Bounds" type="StaticBody2D" parent="Background/TextureRect"]
+
+[node name="Top" type="CollisionShape2D" parent="Background/TextureRect/Bounds"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_kry3j")
+
+[node name="Left" type="CollisionShape2D" parent="Background/TextureRect/Bounds"]
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_kry3j")
+
+[node name="Ground" type="Node" parent="."]
+
+[node name="SubGround" type="TextureRect" parent="Ground"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_jjvhh")
+
+[node name="Ground" type="TextureRect" parent="Ground"]
+texture_filter = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("3_kry3j")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="GroundBody" type="StaticBody2D" parent="Ground/Ground"]
+position = Vector2(0, -548)
+collision_layer = 15
+
+[node name="GroundCollisionShape" type="CollisionShape2D" parent="Ground/Ground/GroundBody"]
+shape = SubResource("WorldBoundaryShape2D_jjvhh")
+
+[node name="Slimmy" parent="." instance=ExtResource("4_jjvhh")]
+position = Vector2(174, 429)
