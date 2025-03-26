@@ -14,6 +14,13 @@ config/name="GoJump"
 run/main_scene="uid://dq6dbkksikx3n"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
+[display]
+
+window/size/viewport_width=1300
+window/size/viewport_height=720
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
 [rendering]
 
 renderer/rendering_method="mobile"

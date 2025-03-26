@@ -8,64 +8,79 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kry3j"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jjvhh"]
-distance = -548.0
 
 [node name="Node" type="Node"]
 
-[node name="Background" type="Node" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="Background"]
-texture_filter = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_8gbba")
-stretch_mode = 1
+[node name="Bounds" type="StaticBody2D" parent="CanvasLayer"]
 
-[node name="Bounds" type="StaticBody2D" parent="Background/TextureRect"]
-
-[node name="Top" type="CollisionShape2D" parent="Background/TextureRect/Bounds"]
+[node name="Top" type="CollisionShape2D" parent="CanvasLayer/Bounds"]
 rotation = 3.14159
 shape = SubResource("WorldBoundaryShape2D_kry3j")
 
-[node name="Left" type="CollisionShape2D" parent="Background/TextureRect/Bounds"]
+[node name="Left" type="CollisionShape2D" parent="CanvasLayer/Bounds"]
 rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_kry3j")
 
-[node name="Ground" type="Node" parent="."]
+[node name="Background" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_bottom = 698.0
 
-[node name="SubGround" type="TextureRect" parent="Ground"]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -50.0
-grow_horizontal = 2
-grow_vertical = 0
-texture = ExtResource("2_jjvhh")
+[node name="BackgroundParallax" type="Parallax2D" parent="CanvasLayer/Background"]
+repeat_size = Vector2(1300, 0)
+autoscroll = Vector2(-50, 0)
 
-[node name="Ground" type="TextureRect" parent="Ground"]
-texture_filter = 1
+[node name="BackgroundImage" type="TextureRect" parent="CanvasLayer/Background/BackgroundParallax"]
+offset_right = 1300.0
+offset_bottom = 720.0
+size_flags_horizontal = 3
+texture = ExtResource("1_8gbba")
+expand_mode = 2
+stretch_mode = 1
+
+[node name="Ground" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -100.0
-offset_bottom = -50.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("3_kry3j")
-expand_mode = 1
-stretch_mode = 1
 
-[node name="GroundBody" type="StaticBody2D" parent="Ground/Ground"]
-position = Vector2(0, -548)
+[node name="GroundBody" type="StaticBody2D" parent="CanvasLayer/Ground"]
 collision_layer = 15
 
-[node name="GroundCollisionShape" type="CollisionShape2D" parent="Ground/Ground/GroundBody"]
+[node name="CollisionBound" type="CollisionShape2D" parent="CanvasLayer/Ground/GroundBody"]
 shape = SubResource("WorldBoundaryShape2D_jjvhh")
 
-[node name="Slimmy" parent="." instance=ExtResource("4_jjvhh")]
-position = Vector2(174, 429)
+[node name="GroundParallax" type="Parallax2D" parent="CanvasLayer/Ground"]
+repeat_size = Vector2(1300, 0)
+autoscroll = Vector2(-150, 0)
+
+[node name="GroundContainer" type="VBoxContainer" parent="CanvasLayer/Ground/GroundParallax"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 1300.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="GroundImage" type="TextureRect" parent="CanvasLayer/Ground/GroundParallax/GroundContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_kry3j")
+stretch_mode = 1
+
+[node name="SubgroundImage" type="TextureRect" parent="CanvasLayer/Ground/GroundParallax/GroundContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_jjvhh")
+stretch_mode = 1
+
+[node name="Slimmy" parent="CanvasLayer" instance=ExtResource("4_jjvhh")]
+position = Vector2(386, 549)
