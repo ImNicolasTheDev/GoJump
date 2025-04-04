@@ -21,6 +21,10 @@ window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
+[layer_names]
+
+2d_physics/layer_2="Obstacle"
+
 [rendering]
 
 renderer/rendering_method="mobile"

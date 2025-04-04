@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq6dbkksikx3n"]
+[gd_scene load_steps=9 format=3 uid="uid://dq6dbkksikx3n"]
 
 [ext_resource type="Texture2D" uid="uid://bgk1m7exdoe14" path="res://Assets/background.png" id="1_8gbba"]
 [ext_resource type="Texture2D" uid="uid://bjwywda2kin1r" path="res://Assets/sub-ground.png" id="2_jjvhh"]
 [ext_resource type="Texture2D" uid="uid://dedbklxrlpiio" path="res://Assets/ground.png" id="3_kry3j"]
 [ext_resource type="PackedScene" uid="uid://da0pg3qr15bnf" path="res://Scenes/main_character.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://nscj67vrjbce" path="res://Scenes/game_over_screen.tscn" id="6_21xkr"]
+[ext_resource type="Script" uid="uid://cokm7tvthf8iy" path="res://Scripts/spawn_timer.gd" id="7_6bp64"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kry3j"]
 
@@ -11,28 +13,24 @@
 
 [node name="Node" type="Node"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Level" type="CanvasLayer" parent="."]
 
-[node name="Bounds" type="StaticBody2D" parent="CanvasLayer"]
+[node name="Bounds" type="StaticBody2D" parent="Level"]
 
-[node name="Top" type="CollisionShape2D" parent="CanvasLayer/Bounds"]
+[node name="Top" type="CollisionShape2D" parent="Level/Bounds"]
 rotation = 3.14159
 shape = SubResource("WorldBoundaryShape2D_kry3j")
 
-[node name="Left" type="CollisionShape2D" parent="CanvasLayer/Bounds"]
-rotation = 1.5708
-shape = SubResource("WorldBoundaryShape2D_kry3j")
-
-[node name="Background" type="Control" parent="CanvasLayer"]
+[node name="Background" type="Control" parent="Level"]
 layout_mode = 3
 anchors_preset = 0
 offset_bottom = 698.0
 
-[node name="BackgroundParallax" type="Parallax2D" parent="CanvasLayer/Background"]
+[node name="BackgroundParallax" type="Parallax2D" parent="Level/Background"]
 repeat_size = Vector2(1300, 0)
 autoscroll = Vector2(-50, 0)
 
-[node name="BackgroundImage" type="TextureRect" parent="CanvasLayer/Background/BackgroundParallax"]
+[node name="BackgroundImage" type="TextureRect" parent="Level/Background/BackgroundParallax"]
 offset_right = 1300.0
 offset_bottom = 720.0
 size_flags_horizontal = 3
@@ -40,7 +38,7 @@ texture = ExtResource("1_8gbba")
 expand_mode = 2
 stretch_mode = 1
 
-[node name="Ground" type="VBoxContainer" parent="CanvasLayer"]
+[node name="Ground" type="VBoxContainer" parent="Level"]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -50,17 +48,17 @@ offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="GroundBody" type="StaticBody2D" parent="CanvasLayer/Ground"]
+[node name="GroundBody" type="StaticBody2D" parent="Level/Ground"]
 collision_layer = 15
 
-[node name="CollisionBound" type="CollisionShape2D" parent="CanvasLayer/Ground/GroundBody"]
+[node name="CollisionBound" type="CollisionShape2D" parent="Level/Ground/GroundBody"]
 shape = SubResource("WorldBoundaryShape2D_jjvhh")
 
-[node name="GroundParallax" type="Parallax2D" parent="CanvasLayer/Ground"]
+[node name="GroundParallax" type="Parallax2D" parent="Level/Ground"]
 repeat_size = Vector2(1300, 0)
 autoscroll = Vector2(-150, 0)
 
-[node name="GroundContainer" type="VBoxContainer" parent="CanvasLayer/Ground/GroundParallax"]
+[node name="GroundContainer" type="VBoxContainer" parent="Level/Ground/GroundParallax"]
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = 1300.0
@@ -68,19 +66,28 @@ offset_bottom = 100.0
 grow_horizontal = 2
 theme_override_constants/separation = 0
 
-[node name="GroundImage" type="TextureRect" parent="CanvasLayer/Ground/GroundParallax/GroundContainer"]
+[node name="GroundImage" type="TextureRect" parent="Level/Ground/GroundParallax/GroundContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_kry3j")
 stretch_mode = 1
 
-[node name="SubgroundImage" type="TextureRect" parent="CanvasLayer/Ground/GroundParallax/GroundContainer"]
+[node name="SubgroundImage" type="TextureRect" parent="Level/Ground/GroundParallax/GroundContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("2_jjvhh")
 stretch_mode = 1
 
-[node name="Slimmy" parent="CanvasLayer" instance=ExtResource("4_jjvhh")]
+[node name="Slimmy" parent="Level" instance=ExtResource("4_jjvhh")]
 position = Vector2(386, 549)
+collision_mask = 2
+
+[node name="GameOver" parent="." instance=ExtResource("6_21xkr")]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+script = ExtResource("7_6bp64")
+
+[connection signal="timeout" from="SpawnTimer" to="SpawnTimer" method="_on_timeout"]
